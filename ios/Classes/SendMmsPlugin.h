@@ -2,6 +2,6 @@
 #import <MessageUI/MessageUI.h>
 #import <UIKit/UIKit.h>
 
-@interface SendMmsPlugin : NSObject <MFMessageComposeViewControllerDelegate>
+@interface SendMmsPlugin : NSObject < FlutterPlugin>
 
 @end

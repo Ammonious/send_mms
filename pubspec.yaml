@@ -1,6 +1,6 @@
 name: send_mms
 description: A Plugin that allows you to attach an image as MMS and message with the default messaging app.
-version: 0.0.1
+version: 0.0.3
 author: Ammonious <Ammonious@gmail.com>
 homepage: https://github.com/Ammonious/send_mms
 

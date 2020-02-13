@@ -2,7 +2,7 @@
 
 A Plugin that allows you to attach an image as MMS with the user's default messaging app.
 
-[![pub package](https://img.shields.io/pub/v/share_extend.svg)](https://pub.dartlang.org/packages/share_extend)
+[![pub package](https://img.shields.io/pub/v/send_mms.svg)](https://pub.dartlang.org/packages/send_mms)
 
 A Flutter plugin for iOS and Android for sharing text, image, video and file with system ui. 
 
@@ -12,7 +12,7 @@ First, add `send_mms` as a dependency in your pubspec.yaml file.
 
 ```
 dependencies:
-  send_mms: "^0.0.1"
+  send_mms: "^0.0.3"
 ```
 
 ### iOS

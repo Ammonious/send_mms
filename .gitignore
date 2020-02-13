@@ -9,3 +9,4 @@ build/
 example/macos/Flutter/GeneratedPluginRegistrant.swift
 example/ios/Runner.xcodeproj/project.pbxproj
 .idea/workspace.xml
+*.iml

@@ -1,0 +1,27 @@
+name: send_mms_example
+description: Demonstrates how to use the send_mms plugin.
+publish_to: 'none'
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  path_provider: ^1.6.0
+  image_picker: ^0.6.3+1
+
+  send_mms:
+    path: ../
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+

@@ -1,0 +1,16 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.schemecreative.send_mms">
+    <application>
+
+        <provider
+            android:name="com.schemecreative.send_mms.FlutterShareProvider"
+            android:authorities="${applicationId}.send_mms.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/send_mms_provider_path" />
+        </provider>
+
+    </application>
+</manifest>

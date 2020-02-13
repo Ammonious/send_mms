@@ -45,12 +45,11 @@ import 'package:send_mms/send_mms.dart';
 ```
 
 //share text
-SendMMS.share(message: "Hello!",
-                      phone: "1234451231");
+SendMMS.shareText(message: "Hello!",phone: "1234451231",);
 
 //share image
 File f = await ImagePicker.pickImage(source: ImageSource.gallery);
-SendMMS.share(imagePath:f.path,message: "Hello!",phone: "1234451231");
+SendMMS.shareImage(imagePath:f.path,message: "Hello!",phone: "1234451231",);
 
 
 

@@ -20,7 +20,7 @@ public class SendMmsPlugin implements MethodChannel.MethodCallHandler, PluginReg
 
   /// the authorities for FileProvider
   private static final int CODE_ASK_PERMISSION = 100;
-  private static final String CHANNEL = "com.schemecreative.send_mms";
+  private static final String CHANNEL = "com.schemecreative.send_mms/send";
 
   private final Registrar mRegistrar;
   private String message;
@@ -50,14 +50,20 @@ public class SendMmsPlugin implements MethodChannel.MethodCallHandler, PluginReg
       String message = call.argument("message");
       String phone = call.argument("phone");
       String imagePath = call.argument("image");
-      share(message, phone, imagePath);
+
+      if(imagePath != null && !imagePath.isEmpty()){
+        shareImage(message, phone, imagePath);
+      } else {
+        shareText(message, phone);
+      }
+
       result.success(null);
     } else {
       result.notImplemented();
     }
   }
 
-  private void share(String message, String phone, String imagePath) {
+  private void shareImage(String message, String phone, String imagePath) {
     this.message = message;
     this.phone = phone;
     this.imagePath = imagePath;
@@ -69,7 +75,6 @@ public class SendMmsPlugin implements MethodChannel.MethodCallHandler, PluginReg
     }
     Intent shareIntent = new Intent();
     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
 
     File f = new File(imagePath);
     Uri uri = ShareUtils.getUriForFile(mRegistrar.activity(), f, "image");
@@ -84,6 +89,24 @@ public class SendMmsPlugin implements MethodChannel.MethodCallHandler, PluginReg
 
   }
 
+  private void shareText(String message, String phone) {
+    this.message = message;
+    this.phone = phone;
+    if (ShareUtils.shouldRequestPermission(imagePath)) {
+      if (!checkPermission()) {
+        requestPermission();
+        return;
+      }
+    }
+    Intent shareIntent = new Intent();
+    shareIntent.setAction(Intent.ACTION_SEND);
+    shareIntent.putExtra(Intent.EXTRA_TEXT, message);
+    shareIntent.putExtra("address", phone);
+    shareIntent.setType("text/plain");
+    shareIntent.setAction(Intent.ACTION_SEND);
+    mRegistrar.activity().startActivity(shareIntent);
+
+  }
   private boolean checkPermission() {
     return ContextCompat.checkSelfPermission(mRegistrar.activity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
             == PackageManager.PERMISSION_GRANTED;
@@ -96,7 +119,11 @@ public class SendMmsPlugin implements MethodChannel.MethodCallHandler, PluginReg
   @Override
   public boolean onRequestPermissionsResult(int requestCode, String[] perms, int[] grantResults) {
     if (requestCode == CODE_ASK_PERMISSION && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-      share(message, phone, imagePath);
+      if(imagePath != null && !imagePath.isEmpty()){
+        shareImage(message, phone, imagePath);
+      } else {
+        shareText(message, phone);
+      }
     }
     return false;
 

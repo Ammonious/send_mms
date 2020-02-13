@@ -14,7 +14,7 @@
 
  + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* shareChannel = [FlutterMethodChannel
-                                          methodChannelWithName:@"com.schemecreative.send_mms"
+                                          methodChannelWithName:@"com.schemecreative.send_mms/send"
                                           binaryMessenger: [registrar messenger]];
      UIViewController *viewController =
      [UIApplication sharedApplication].delegate.window.rootViewController;
@@ -47,7 +47,6 @@ if (self.result) {
                NSURL *url = [NSURL fileURLWithPath:imagePath];
                [self share:message recipient:phone image:url];
 
-
            } else {
                self.result(FlutterMethodNotImplemented);
            }
@@ -62,11 +61,12 @@ if (self.result) {
    
     if([MFMessageComposeViewController canSendText]){
         msgController.recipients = [NSArray arrayWithObjects:cell, nil];
-        NSError* error = nil;
-        NSData *dataImg = [NSData dataWithContentsOfURL:imageUrl options:NSDataReadingUncached error:&error];
-
-        [msgController addAttachmentData:dataImg typeIdentifier:@"public.data" filename:@"image.png"];
         
+        if(imageUrl != nil){
+            NSError* error = nil;
+            NSData *dataImg = [NSData dataWithContentsOfURL:imageUrl options:NSDataReadingUncached error:&error];
+             [msgController addAttachmentData:dataImg typeIdentifier:@"public.data" filename:@"image.png"];
+        }
         msgController.body = message;
         [_viewController presentViewController:msgController animated:YES completion:nil];
     }
@@ -76,7 +76,7 @@ if (self.result) {
 
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
 
-
+    
     switch (result) {
         case MessageComposeResultCancelled:
                 [controller dismissViewControllerAnimated:YES completion:nil];
@@ -92,7 +92,7 @@ if (self.result) {
         default:
             break;
         }
-
+        self.result(nil);
 }
 
 
